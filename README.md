@@ -1,7 +1,5 @@
 - Introduction to Creative Coding through Generative Designing
 - Learning Javascript and understanding its syntax
 - The p5.js library simplifies the use of javascript to generate images and it has similar features like Processing
-- The code is written in VSCode and with the use of the JavaScript (ES6) and p5.vscode add-ons
-- p5.gui is a community-shared library which is used to display the written code
-- The library can be as a folder named p5gui
+- The code is written in VSCode and with the use of the JavaScript (ES6)
 - The project is made by Jonah Park during an internship at hmmh multimediahaus AG
