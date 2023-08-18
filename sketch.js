@@ -1,6 +1,6 @@
-const full_squares_max_width = 31;
-const full_squares_max_height = 47;
-const Y_shift = 30;
+const full_squares_max_width = 30;
+const full_squares_max_height = 45;
+const row_shift = 30;
 const full_squares_X1 = 10;
 const full_squares_Y1 = 10; //variable to deterrmine the size of the rectangle and its squares
 
@@ -33,16 +33,16 @@ function fullSquares() {
   let animation = frameCount * 0.5; //parameter for animation
   for (let y = 0; y <= max_height; y++) {
     let value_Y_to_add = y * Y1;
-    let gradient = map(y, 0, max_height, 210, 270); //animated gradient effect
+    let gradient = map(y, 0, max_height, 0 + animation, 55 + animation); //animated gradient effect
     //stroke(45, 70, 100);
     strokeWeight(1);
     for (let x = 0; x <= max_width; x++) {
       let value_X_to_add = x * X1;
       fill(gradient, 95, 75);
       if (x % 2 === 0) {
-        value_Y_to_add += Y1 + Y_shift;
+        value_Y_to_add += Y1 + row_shift;
       } else {
-        value_Y_to_add -= Y1 + Y_shift;
+        value_Y_to_add -= Y1 + row_shift;
       }
       //if conditional creates visual effect of columns shifting
       rect(
@@ -83,9 +83,8 @@ function interference() {
 
 function setup() {
   createCanvas(800, 800);
-  //frameRate(30);
-  noLoop();
-  noStroke();
+  frameRate(30);
+  //noLoop();
   console.log(
     full_squares_max_width,
     full_squares_max_height,
@@ -106,7 +105,40 @@ function setup() {
 function draw() {
   //background(210, 0, 50);
   fullSquares();
+  noStroke();
   //interference();
 }
 
 // p.93
+
+function RowfullSquares() {
+  var square_width = full_squares_max_width;
+  var rect_x = full_squares_X1;
+  var rect_y = full_squares_Y1;
+  var square_height = full_squares_max_height;
+  var spacer = 1;
+  for (let x = 0; x <= square_width; x++) {
+    let value_X_to_add = x * full_squares_X1;
+    let animation = frameRate * 0.1;
+    let gradient = map(x, 0, square_height, 0 + animation, 55 + animation);
+    strokeWeight(1);
+    for (let y = 0; y <= square_height; y++) {
+      let value_Y_to_add = y * rect_y;
+      fill(gradient, 80, 100);
+
+      if (y % 2 === 0) {
+        value_X_to_add += full_squares_X1 + 30;
+      } else {
+        value_X_to_add -= full_squares_X1 + 30;
+      }
+
+      rect(
+        width / 2 + value_X_to_add - global_total_square_width / 2 + spacer,
+        height / 2 + value_Y_to_add - global_total_square_height / 2,
+        rect_x,
+        rect_y
+      );
+      spacer = spacer + 2;
+    }
+  }
+}
