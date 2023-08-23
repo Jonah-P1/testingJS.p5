@@ -1,5 +1,4 @@
-- Introduction to Creative Coding through Generative Designing
+- Introduction to Creative Coding and Generative Designing
 - Learning Javascript and understanding its syntax
-- The p5.js library simplifies the use of javascript to generate images and it has similar features like Processing
-- The code is written in VSCode and with the use of the JavaScript (ES6)
+- The code is written in VSCode and with the use of the p5.library in JavaScript
 - The project is made by Jonah Park during an internship at hmmh multimediahaus AG
