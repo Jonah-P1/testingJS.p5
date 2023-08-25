@@ -1,6 +1,8 @@
 var img;
 var colors = [];
 var sortMode = null;
+let slider;
+let sliderValue;
 
 class Pixels {
   constructor(name, pointS, pointE, squareX, squareY, pictureColor) {
@@ -20,15 +22,18 @@ class Pixels {
 }
 
 function preload() {
-  img = loadImage("images/coastscenery.jpg");
+  img = loadImage("images/city.jpg");
 }
 
 function setup() {
-  createCanvas(4000, 2700);
+  createCanvas(500, 500);
+  slider = createSlider(0, 250, 100);
+  slider.position(100, 600);
+  slider.style("width", "100px");
 }
 
 function draw() {
-  let resolution = 20;
+  let resolution = slider.value();
   var tile_count = floor(width / max(resolution, 5));
   var rect_size = width / tile_count;
 
@@ -43,9 +48,11 @@ function draw() {
     pixels[i].display();
   }
   keyPressedSorting();
+  colorFilter();
 }
 
 function sortColors(mode) {
+  //Sorts pixel based on their color
   switch (mode) {
     case "HUE":
       colors.sort((a, b) => hue(a) - hue(b));
@@ -66,6 +73,7 @@ function sortColors(mode) {
 }
 
 function keyPressedSorting() {
+  //Enables users to decide what sortingMode should be applied on the image
   if (key == "5") sortMode = null;
   if (key == "6") sortMode = "HUE";
   if (key == "7") sortMode = "SATURATION";
@@ -74,17 +82,16 @@ function keyPressedSorting() {
 }
 
 function readImage(tile_count, rect_size) {
+  //Function reads the image in rows and columns and stores read pixels colors in colors[] array
   for (var grid_y = 0; grid_y < tile_count; grid_y++) {
     for (var grid_x = 0; grid_x < tile_count; grid_x++) {
       var pixel_x = int(grid_x * rect_size);
       var pixel_y = int(grid_y * rect_size);
       var i = (pixel_y * img.width + pixel_x) * 4;
-      var c = color(
-        img.pixels[i],
-        img.pixels[i + 1],
-        img.pixels[i + 2],
-        img.pixels[i + 3]
-      );
+      var r = img.pixels[i];
+      var g = img.pixels[i + 1];
+      var b = img.pixels[i + 2];
+      var c = color(r, g, b, img.pixels[i + 3]);
       colors.push(c);
     }
   }
@@ -92,6 +99,7 @@ function readImage(tile_count, rect_size) {
 }
 
 function createPixelList(tile_count, rect_size) {
+  //creates a list of read Pixels through Pixels class and gives the according color code that has been saved earlier in colors[]
   var i = 0;
   for (var grid_y = 0; grid_y < tile_count; grid_y++) {
     for (var grid_x = 0; grid_x < tile_count; grid_x++) {
@@ -108,20 +116,5 @@ function createPixelList(tile_count, rect_size) {
       );
       i++;
     }
-  }
-}
-
-function keyPressedResolution(resolution) {
-  switch (key) {
-    case "1":
-      return 5;
-    case "2":
-      return 25;
-    case "3":
-      return 35;
-    case "4":
-      return 95;
-    default:
-      return resolution;
   }
 }
