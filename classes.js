@@ -56,7 +56,7 @@ function setup() {
   colorMode(HSB, 360, 100, 100);
   angleMode(DEGREES);
   strokeWeight(12);
-  frameRate(15);
+  frameRate(30);
 
   let total_squares = calculateGridSize();
   let total_square_height = total_squares[0];

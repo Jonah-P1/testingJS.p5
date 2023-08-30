@@ -1,7 +1,8 @@
 var img;
 var colors = [];
 var sortMode = null;
-let slider;
+let slider_1;
+let slider_2;
 let sliderValue;
 
 class Pixels {
@@ -22,18 +23,22 @@ class Pixels {
 }
 
 function preload() {
-  img = loadImage("images/city.jpg");
+  img = loadImage("images/pxresize.png");
 }
 
 function setup() {
-  createCanvas(500, 500);
-  slider = createSlider(0, 250, 100);
-  slider.position(100, 600);
-  slider.style("width", "100px");
+  createCanvas(img.width, img.height);
+  slider_1 = createSlider(0, 280, 100);
+  slider_1.position(100, 600);
+  slider_1.style("width", "100px");
+  slider_2 = createSlider(-70, 70, 0);
+  slider_2.position(100, 750);
+  slider_2.style("width", "100px");
 }
 
 function draw() {
-  let resolution = slider.value();
+  let resolution = slider_1.value();
+  let color_filter = slider_2.value();
   var tile_count = floor(width / max(resolution, 5));
   var rect_size = width / tile_count;
 
@@ -41,14 +46,14 @@ function draw() {
   colors = [];
   pixels = [];
 
-  readImage(tile_count, rect_size);
+  readImage(tile_count, rect_size, color_filter);
   sortColors(sortMode);
   createPixelList(tile_count, rect_size);
-  for (let i = 0; i < pixels.length; i++) {
-    pixels[i].display();
-  }
+  //for (let i = 0; i < pixels.length; i++) {
+  //  pixels[i].display();
+  //}
+  transformTriangle(tile_count, rect_size);
   keyPressedSorting();
-  colorFilter();
 }
 
 function sortColors(mode) {
@@ -74,6 +79,8 @@ function sortColors(mode) {
 
 function keyPressedSorting() {
   //Enables users to decide what sortingMode should be applied on the image
+  if (key == "3") transformTriangle();
+  if (key == "4") background("white");
   if (key == "5") sortMode = null;
   if (key == "6") sortMode = "HUE";
   if (key == "7") sortMode = "SATURATION";
@@ -81,14 +88,14 @@ function keyPressedSorting() {
   if (key == "9") sortMode = "GRAYSCALE";
 }
 
-function readImage(tile_count, rect_size) {
+function readImage(tile_count, rect_size, color_filter) {
   //Function reads the image in rows and columns and stores read pixels colors in colors[] array
   for (var grid_y = 0; grid_y < tile_count; grid_y++) {
     for (var grid_x = 0; grid_x < tile_count; grid_x++) {
       var pixel_x = int(grid_x * rect_size);
       var pixel_y = int(grid_y * rect_size);
       var i = (pixel_y * img.width + pixel_x) * 4;
-      var r = img.pixels[i];
+      var r = img.pixels[i] + color_filter;
       var g = img.pixels[i + 1];
       var b = img.pixels[i + 2];
       var c = color(r, g, b, img.pixels[i + 3]);
@@ -115,6 +122,28 @@ function createPixelList(tile_count, rect_size) {
         )
       );
       i++;
+    }
+  }
+}
+
+function transformTriangle(tile_count, rect_size) {
+  var counter = 0;
+
+  for (var i = 0; i < tile_count; i++) {
+    for (var j = 0; j < tile_count; j++) {
+      var triangle_middleX = rect_size / 2 + j * rect_size;
+      var triangle_middleY = rect_size / 2 + i * rect_size;
+      noStroke();
+      fill(colors[counter]);
+      triangle(
+        triangle_middleX - rect_size / 2,
+        triangle_middleY - rect_size / 2,
+        triangle_middleX + rect_size / 2,
+        triangle_middleY - rect_size / 2,
+        triangle_middleX,
+        triangle_middleY + rect_size / 2
+      );
+      counter++;
     }
   }
 }

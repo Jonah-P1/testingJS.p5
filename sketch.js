@@ -116,7 +116,6 @@ function RowfullSquares() {
   var rect_x = full_squares_X1;
   var rect_y = full_squares_Y1;
   var square_height = full_squares_max_height;
-  var spacer = 1;
   for (let x = 0; x <= square_width; x++) {
     let value_X_to_add = x * full_squares_X1;
     let animation = frameRate * 0.1;
@@ -138,7 +137,6 @@ function RowfullSquares() {
         rect_x,
         rect_y
       );
-      spacer = spacer + 2;
     }
   }
 }
